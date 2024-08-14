@@ -3,20 +3,25 @@ const app = express(); // Calling express
 const dotenv = require("dotenv").config();
 const recipe = require("./routes/recipe");
 
+//importing DB function
+const connectDB = require("./config/databaseConnect")
+
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json()); // Middleware for parsing JSON
 
-app.use("/", recipe); // Use the recipe router
+app.use("/recipe", recipe); // Use the recipe router
 
-app.get("/", (req, res) => {
-  res.json({ success: true, message: "Hello" });
-});
 
-app.listen(PORT, (err) => {
-  if (err) {
-    console.error('Error starting server:', err);
-  } else {
-    console.log(`Starting server on port ${PORT}`);
+const startServer = async () => {   // servers runs only after the database is connected
+  try{
+      await connectDB();
+      app.listen(PORT, () => {
+          console.log(`Server started in port ${PORT}`);
+      });
+  } catch(err){
+      console.log(err);
+      process.exit(1);
   }
-});
+};
+startServer();
