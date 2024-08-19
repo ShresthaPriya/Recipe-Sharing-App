@@ -1,38 +1,134 @@
-.App {
+
+.Home {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+.left {
+  max-width: 50%;
+}
+
+.left h1 {
+  font-size: 3em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.left h3 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.left button {
+  background-color: #007B55;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.left button:hover {
+  background-color: white;
+  color: #007B55;
+  border: 1px solid #007B55;
+}
+
+
+.right {
+  max-width: 50%;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.right img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 50%;
+  
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+.footer {
+  background: rgb(127, 122, 122);
+  background: linear-gradient(90deg, rgba(217,217,217,1) 0%, rgba(133,185,159,1) 49%, rgba(46,152,99,1) 100%);
+  color: #060606;
+  padding: 20px;
+  text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+
+.footer-content {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap; 
+  
 }
 
-.App-link {
-  color: #61dafb;
+.footer-left h1 {
+  font-family: 'Jacques Francois', serif;
+  font-size: 38px;
+  color: #003E1F;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.footer-left p {
+  max-width: 400px;
+  margin-top: 10px;
+}
+
+.footer-right {
+  text-align: right;
+}
+
+.footer-links {
+  list-style: none;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin: 5px 0;
+}
+
+.footer-links a {
+  color: #0a0a0a;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center; 
+  margin-top: 100px;
+  margin-right:130px ;
+}
+
+.footer-social a {
+  color: #090909;
+  margin: 0 15px;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.footer-social a:hover {
+  color: #DCE7E1;
+}
+
+.footer-bottom {
+  margin-top: 20px;
+  border-top: 1px solid #070707;
+  padding-top: 10px;
+  font-size: 14px;
 }

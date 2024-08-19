@@ -1,0 +1,18 @@
+.trending-recipes {
+    padding: 20px;
+  }
+  
+  .recipe-grid {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping to the next line */
+    justify-content: space-around; /* Aligns items with space around them */
+    gap: 20px; /* Adds spacing between items */
+  }
+  
+  .recipe-card {
+    flex: 1 1 calc(25% - 40px); /* Flex-grow, flex-shrink, and basis calculation */
+    box-sizing: border-box; /* Ensures padding doesn't affect width calculation */
+    max-width: calc(25% - 40px); /* Ensures no card exceeds 25% width minus the gap */
+    margin-bottom: 20px; /* Adds some margin at the bottom */
+  }
+  

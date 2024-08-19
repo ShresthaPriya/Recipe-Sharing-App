@@ -1,0 +1,57 @@
+.explore-recipes {
+    padding: 20px;
+  }
+  
+  .explore-recipes h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .filter-section {
+    margin-bottom: 20px;
+  }
+  
+  .filter-section select,
+  .filter-section input {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+  }
+  
+  .recipes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .recipe-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    overflow: hidden;
+  }
+  
+  .recipe-card img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .recipe-card .info {
+    padding: 15px;
+  }
+  
+  .recipe-card .info h3 {
+    font-size: 1.25rem;
+    margin: 0;
+    color: #555;
+  }
+  
+  .recipe-card .info p {
+    font-size: 0.875rem;
+    color: #777;
+  }
+  
