@@ -1,45 +1,61 @@
 import React from 'react';
-import RecipeCard from './RecipeCard'; // Adjust the path as needed
+import { useNavigate } from 'react-router-dom';
+import '../styles/TrendingRecipes.css';
 
 function TrendingRecipe() {
+  const navigate = useNavigate();
+
+  const viewRecipe = (id) => {
+    navigate(`/recipe/${id}`);
+  };
+
+
   return (
-    <div className="trending-recipes">
-      <h2>What’s Trending Now?</h2>
-      <div className="recipe-grid">
-        <RecipeCard
-          image={require('../images/salmon.webp')}
-          title="Delicious Recipe 1"
-          ordered="1234"
-          reviews="567"
-          rating="4.5"
-          buttonText="View Recipe"
-        />
-        <RecipeCard
-          image={require('../images/gingerbread-cupcakes.jpg')}
-          title="Delicious Recipe 2"
-          ordered="2345"
-          reviews="678"
-          rating="4.8"
-          buttonText="View Recipe"
-        />
-        <RecipeCard
-          image={require('../images/hash-brown-omelet.webp')}
-          title="Delicious Recipe 3"
-          ordered="3456"
-          reviews="789"
-          rating="4.7"
-          buttonText="View Recipe"
-        />
-        <RecipeCard
-          image="path/to/image4.jpg"
-          title="Delicious Recipe 4"
-          ordered="4567"
-          reviews="890"
-          rating="4.6"
-          buttonText="View Recipe"
-        />
+    <>
+      <h3>Trending Recipes</h3>
+      <div className="trending-recipes">
+        <div className="recipe-card">
+          <img src={require('../images/salmon.webp')} alt="Delicious Recipe 1" className="recipe-image" />
+          <h3>Easy Baked Salmon</h3>
+          <div className='info'>
+            <p>102 ordered</p>
+            <p>102 reviews</p>
+            <p>4.5 ★</p>
+          </div>
+          <button onClick={() => viewRecipe('recipe-id-1')}>View Recipe</button>
+        </div>
+        <div className="recipe-card">
+          <img src={require('../images/gingerbread-cupcakes.jpg')} alt="Gingerbread Cupcake" className="recipe-image" />
+          <h3>Gingerbread Cupcake</h3>
+          <div className='info'>
+            <p>102 ordered</p>
+            <p>102 reviews</p>
+            <p>4.5 ★</p>
+          </div>
+          <button onClick={() => viewRecipe('recipe-id-1')}>View Recipe</button>
+        </div>
+        <div className="recipe-card">
+          <img src={require('../images/hash-brown-omelet.webp')} alt="Hash Brown and Bacon Omelet" className="recipe-image" />
+          <h3>Hash Brown and Bacon Omelet</h3>
+          <div className='info'>
+            <p>102 ordered</p>
+            <p>102 reviews</p>
+            <p>4.5 ★</p>
+          </div>
+          <button onClick={() => viewRecipe('recipe-id-1')}>View Recipe</button>
+        </div>
+        <div className="recipe-card">
+          <img src={require('../images/hash-brown-omelet.webp')} alt="Hash Brown and Bacon Omelet" className="recipe-image" />
+          <h3>Hash Brown and Bacon Omelet</h3>
+          <div className='info'>
+            <p>102 ordered</p>
+            <p>102 reviews</p>
+            <p>4.5 ★</p>
+          </div>
+          <button onClick={() => viewRecipe('recipe-id-1')}>View Recipe</button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

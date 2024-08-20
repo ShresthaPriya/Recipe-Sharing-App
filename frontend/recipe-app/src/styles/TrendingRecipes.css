@@ -1,18 +1,87 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+h3 {
+  text-align: center; /* Centers the text horizontally */
+  margin-bottom: 20px; /* Adds some space below the heading */
+}
+
+/* Container for the trending recipes */
 .trending-recipes {
-    padding: 20px;
+  display: flex;
+  justify-content: center; /* Aligns the cards to the center */
+  flex-wrap: wrap;
+  gap: 20px; /* Adds space between cards */
+  margin: 20px auto;
+  max-width: 1800px; /* Limits the width of the container */
+}
+
+/* Style each recipe card */
+.recipe-card {
+  background-color: #fff;
+  border-radius: 10px; /* Adds rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Card shadow effect */
+  overflow: hidden; /* Ensures the content stays within the rounded corners */
+  width: 300px; /* Card width */
+  margin: 10px; /* Adds space between cards */
+  text-align: center;
+  transition: transform 0.2s; /* Adds a hover effect */
+}
+
+.recipe-card:hover {
+  transform: scale(1.05); /* Slightly enlarges the card on hover */
+}
+
+.recipe-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  height: 200px; /* Set a consistent height for all images */
+  object-fit: cover; /* Ensures the image covers the entire area without stretching */
+}
+
+.recipe-card h3 {
+  font-size: 18px;
+  margin: 15px 0;
+}
+
+.recipe-card .info {
+  color: #666;
+  margin: 0;
+  font-size: 12px;
+  align-items: left;
+  justify-items: left;
+}
+
+.recipe-card button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin: 15px 0;
+  border-radius: 5px; /* Rounded button */
+  cursor: pointer;
+  font-size: 1em;
+
+}
+
+.recipe-card button:hover {
+  background-color: #45a049;
+}
+
+/* Responsive design for small screens */
+@media screen and (max-width: 768px) {
+  .trending-recipes {
+    flex-direction: column; /* Stacks the cards vertically */
+    align-items: center;
   }
-  
-  .recipe-grid {
-    display: flex;
-    flex-wrap: wrap; /* Allows wrapping to the next line */
-    justify-content: space-around; /* Aligns items with space around them */
-    gap: 20px; /* Adds spacing between items */
-  }
-  
+
   .recipe-card {
-    flex: 1 1 calc(25% - 40px); /* Flex-grow, flex-shrink, and basis calculation */
-    box-sizing: border-box; /* Ensures padding doesn't affect width calculation */
-    max-width: calc(25% - 40px); /* Ensures no card exceeds 25% width minus the gap */
-    margin-bottom: 20px; /* Adds some margin at the bottom */
+    width: 80%; /* Make the cards larger on smaller screens */
   }
-  
+}
