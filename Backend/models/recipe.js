@@ -18,6 +18,10 @@ const recipeSchema = mongoose.Schema({
         type: String,
         // required: true
     },
+    reviews:{
+        type:String,
+
+    },
     recipeImg:{
         type: String,
         

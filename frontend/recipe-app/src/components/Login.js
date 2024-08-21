@@ -2,35 +2,46 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import '../styles/Login.css';
-
-const credentials = [
-  { email: "test123", password: "test123" },
-  { email: "test@124", password: "test124" },
-  { email: "test@125", password: "test" }
-];
+import axios from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    for (let i = 0; i < credentials.length; i++) {
-      if (credentials[i].email === email && credentials[i].password === password) {
-        setIsAuthenticated(true);
-        break;
-      }
-    }
+    try {
+      setLoading(true);
+      const response = await axios.post("http://localhost:4000/login", {
+        email,
+        password,
+      });
+      setLoading(false);
 
-    if (isAuthenticated) {
-      navigate("/Home");
-    } else {
-      alert("Invalid username or password");
+      const data = response.data;
+      if (data.success) {
+        alert("Login successful!");
+        navigate("/Home");
+      } else {
+        alert("Login failed: " + data.error);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error during login:", error);
+      alert("An error occurred. Please try again.");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="login-page">
@@ -38,7 +49,6 @@ const Login = () => {
         <div className="login-form">
           <h2>Log in</h2>
           <form onSubmit={handleSubmit}>
-            
             <label>Email</label>
             <input
               type="email"
@@ -73,7 +83,6 @@ const Login = () => {
         <div className="login-image">
           <h1>Bon Appétit</h1>
           <img src={require('../images/splash.jpg')} alt="Food" />
-          
         </div>
       </div>
     </div>
