@@ -20,46 +20,73 @@ const getRecipes = async(req, res) => {
      res.json(recipe)
   }
 
-  //add recipe
-  const addRecipes = async(req, res) => {
-    const {title, ingredients, instructions, shortDescription, time,noOfServings}= req.body
-    if(!title || !ingredients || !shortDescription || !instructions || !noOfServings){
-      res.json({message: "Please fill the required fields."})
-    }
-   const newRecipe = await Recipes.create({
-    title, ingredients, instructions, shortDescription, time, noOfServings
-   })
-   return res.json(newRecipe)
-   
-  };
+  // Add new recipe
+const addRecipes = async(req, res) => {
+  const { title, ingredients, instructions, shortDescription, time, noOfServings } = req.body;
 
-  const editRecipes = async(req, res) => {
-    const {title, ingredients, instructions, shortDescription, time, noOfServings}= req.body
-    let recipe = await Recipes.findById(req.params.id)
-    try{
-      if(recipe){
-        await Recipes.findByIdAndUpdate(req.params.id, req.body, {new:true})
-          res.json({title, ingredients, shortDescription,instructions, time, noOfServings})
-        
-       }
-    }
-    catch(err){
-      return res.status(404).json({success:false, message: "Error while updating"})
-    }
-  
-   
-  };
+  if (!title || !ingredients || !shortDescription || !instructions || !noOfServings) {
+      return res.status(400).json({ message: "Please fill the required fields." });
+  }
 
-  const deleteRecipes = async(req, res) => {
-    const recipe = await Recipes.findByIdAndDelete(req.params.id)
-    return res.json(recipe)
-    try{
-        res.json({ success: true, message: "Recipe deleted successfully" });
-    }
-    catch(err){
-        res.status(400).json({success:false, error:err.message});
-    }
-   
-  };
+  const newRecipe = new Recipes({
+      title,
+      ingredients,
+      instructions,
+      shortDescription,
+      time,
+      noOfServings,
+      recipeImg: {
+          data: req.file.buffer,
+          contentType: req.file.mimetype,
+      },
+  });
 
-module.exports = {getRecipes, getRecipeById, addRecipes, editRecipes, deleteRecipes}
+  try {
+      await newRecipe.save();
+      res.json(newRecipe);
+  } catch (err) {
+      res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+// Edit existing recipe
+const editRecipes = async(req, res) => {
+  const { title, ingredients, instructions, shortDescription, time, noOfServings } = req.body;
+
+  try {
+      let recipe = await Recipes.findById(req.params.id);
+
+      if (!recipe) {
+          return res.status(404).json({ success: false, message: "Recipe not found" });
+      }
+
+      if (req.file) {
+          req.body.recipeImg = {
+              data: req.file.buffer,
+              contentType: req.file.mimetype,
+          };
+      }
+
+      recipe = await Recipes.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      res.json(recipe);
+  } catch (err) {
+      return res.status(400).json({ success: false, message: "Error while updating", error: err.message });
+  }
+};
+
+// Delete recipe
+const deleteRecipes = async(req, res) => {
+  try {
+      const recipe = await Recipes.findByIdAndDelete(req.params.id);
+
+      if (!recipe) {
+          return res.status(404).json({ success: false, message: "Recipe not found" });
+      }
+
+      res.json({ success: true, message: "Recipe deleted successfully" });
+  } catch (err) {
+      res.status(400).json({ success: false, error: err.message });
+  }
+};
+
+module.exports = { getRecipes, getRecipeById, addRecipes, editRecipes, deleteRecipes };
