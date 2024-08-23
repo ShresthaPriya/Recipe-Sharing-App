@@ -1,9 +1,10 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import Navbar from './Navbar';
-import TrendingRecipe from './TrendingRecipe';
-import ExploreRecipe from './ExploreRecipe';
+// import Navbar from './Navbar';
+
 import axios from 'axios'
+import AllRecipesCookHome from './allRecipesCookHome';
+import CookNavbar from './CookNavbar';
 
 function Home() {
   const [recipes, setRecipes] = useState([]);
@@ -26,9 +27,9 @@ function Home() {
     <div>
          
         
-      <Navbar />
-      <TrendingRecipe />
-      <ExploreRecipe/>
+      <CookNavbar/>
+      <AllRecipesCookHome />
+      
     </div>
   );
 }

@@ -8,6 +8,7 @@ body {
   padding: 0;
 }
 h3 {
+  margin-top: 20px;
   text-align: center; /* Centers the text horizontally */
   margin-bottom: 20px; /* Adds some space below the heading */
 }

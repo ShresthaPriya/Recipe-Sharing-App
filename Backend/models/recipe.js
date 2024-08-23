@@ -18,14 +18,21 @@ const recipeSchema = mongoose.Schema({
         type: String,
         // required: true
     },
-    reviews:{
-        type:String,
+    shortDescription:{
+        type:[String],
 
     },
-    recipeImg:{
-        type: String,
-        
+    noOfServings:{
+        type:String,
     },
+    
+        recipeImg:
+        {
+            data: Buffer,
+            contentType: String
+        }
+        
+    ,
 }, {timeStamp: true})
 
 module.exports = mongoose.model("Recipe", recipeSchema)//pass table name and recipeSchema

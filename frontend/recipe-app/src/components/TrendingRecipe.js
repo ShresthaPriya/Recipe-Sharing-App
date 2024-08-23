@@ -44,16 +44,7 @@ function TrendingRecipe() {
           </div>
           <button onClick={() => viewRecipe('recipe-id-1')}>View Recipe</button>
         </div>
-        <div className="recipe-card">
-          <img src={require('../images/hash-brown-omelet.webp')} alt="Hash Brown and Bacon Omelet" className="recipe-image" />
-          <h3>Hash Brown and Bacon Omelet</h3>
-          <div className='info'>
-            <p>102 ordered</p>
-            <p>102 reviews</p>
-            <p>4.5 ★</p>
-          </div>
-          <button onClick={() => viewRecipe('recipe-id-1')}>View Recipe</button>
-        </div>
+    
       </div>
     </>
   );

@@ -1,57 +1,90 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+h2 {
+  text-align: center; /* Centers the text horizontally */
+  margin-bottom: 10px; /* Adds some space below the heading */
+  
+}
+
+/* Container for the trending recipes */
 .explore-recipes {
-    padding: 20px;
+  display: flex;
+  justify-content: center; /* Aligns the cards to the center */
+  flex-wrap: wrap;
+  gap: 20px; /* Adds space between cards */
+  margin: 20px auto;
+  max-width: 1800px; /* Limits the width of the container */
+}
+
+.recipe-grid {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  width: 300px; /* Sets the width of each card */
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.recipe-grid:hover {
+  transform: scale(1.05);
+}
+
+
+
+
+.recipe-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  height: 200px; /* Set a consistent height for all images */
+  object-fit: cover; /* Ensures the image covers the entire area without stretching */
+}
+
+.recipe-grid h2 {
+  font-size: 18px;
+  margin: 15px 0;
+}
+
+.recipe-grid .info {
+  color: #666;
+  margin: 0;
+  font-size: 12px;
+  align-items: left;
+  justify-items: left;
+}
+
+.recipe-grid button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin: 15px 0;
+  border-radius: 5px; /* Rounded button */
+  cursor: pointer;
+  font-size: 1em;
+
+}
+
+.recipe-grid button:hover {
+  background-color: #45a049;
+}
+
+/* Responsive design for small screens */
+@media screen and (max-width: 768px) {
+  .explore-recipes {
+    flex-direction: column; /* Stacks the cards vertically */
+    align-items: center;
   }
-  
-  .explore-recipes h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #333;
+
+  .recipe-grid {
+    width: 80%; /* Make the cards larger on smaller screens */
+    margin: 0 auto;
   }
-  
-  .filter-section {
-    margin-bottom: 20px;
-  }
-  
-  .filter-section select,
-  .filter-section input {
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    margin-right: 10px;
-  }
-  
-  .recipes-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .recipe-card {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 200px;
-    overflow: hidden;
-  }
-  
-  .recipe-card img {
-    width: 100%;
-    height: auto;
-  }
-  
-  .recipe-card .info {
-    padding: 15px;
-  }
-  
-  .recipe-card .info h3 {
-    font-size: 1.25rem;
-    margin: 0;
-    color: #555;
-  }
-  
-  .recipe-card .info p {
-    font-size: 0.875rem;
-    color: #777;
-  }
-  
+}

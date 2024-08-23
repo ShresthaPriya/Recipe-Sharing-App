@@ -1,4 +1,6 @@
 const Recipes = require("../models/recipe")
+
+//get all recipes
 const getRecipes = async(req, res) => {
     try{
        const recipes = await Recipes.find()
@@ -10,6 +12,8 @@ const getRecipes = async(req, res) => {
    
   };
 
+
+  //recipes by id
   const getRecipeById = async(req, res)=>{
    
     const recipe = await Recipes.findById(req.params.id)
@@ -18,24 +22,24 @@ const getRecipes = async(req, res) => {
 
   //add recipe
   const addRecipes = async(req, res) => {
-    const {title, ingredients, instructions, time}= req.body
-    if(!title || !ingredients || !instructions){
+    const {title, ingredients, instructions, shortDescription, time,noOfServings}= req.body
+    if(!title || !ingredients || !shortDescription || !instructions || !noOfServings){
       res.json({message: "Please fill the required fields."})
     }
    const newRecipe = await Recipes.create({
-    title, ingredients, instructions, time
+    title, ingredients, instructions, shortDescription, time, noOfServings
    })
    return res.json(newRecipe)
    
   };
 
   const editRecipes = async(req, res) => {
-    const {title, ingredients, instructions, time}= req.body
+    const {title, ingredients, instructions, shortDescription, time, noOfServings}= req.body
     let recipe = await Recipes.findById(req.params.id)
     try{
       if(recipe){
         await Recipes.findByIdAndUpdate(req.params.id, req.body, {new:true})
-          res.json({title, ingredients, instructions, time})
+          res.json({title, ingredients, shortDescription,instructions, time, noOfServings})
         
        }
     }
@@ -50,7 +54,7 @@ const getRecipes = async(req, res) => {
     const recipe = await Recipes.findByIdAndDelete(req.params.id)
     return res.json(recipe)
     try{
-        res.json({ success: true, message: "Hello" });
+        res.json({ success: true, message: "Recipe deleted successfully" });
     }
     catch(err){
         res.status(400).json({success:false, error:err.message});

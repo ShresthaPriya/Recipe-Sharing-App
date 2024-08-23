@@ -1,29 +1,31 @@
 const Login = require("../models/Login");
 
-// Get Credentials
-const getCredentials = async (req, res) => {
+const loginUser = async (req, res) => {
     try {
-        const credentials = await Login.find();
-        return res.json({ success: true, credentials });
-    } catch (err) {
-        res.status(400).json({ success: false, error: err.message });
+        const { email, password } = req.body;
+        const user = await Login.findOne({ email });
+
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid email.' });
+        }
+
+        // Directly compare the provided password with the one stored in the database
+        if (user.password !== password) {
+            return res.status(401).json({ message: 'Invalid password' });
+        }
+
+        // Passwords match, user is authenticated
+        res.status(200).json({ user });
+        console.log("Logged in successfully");
+
+    } catch (error) {
+        // If any error occurs, return a 500 status with the error message
+        res.status(500).json({ message: error.message });
+        console.error(error);
     }
 };
 
-// Add Credentials
-const addCredentials = async (req, res) => {
-    const { email, password } = req.body;
 
-    if (!email || !password) {
-        return res.json({ message: "Please fill the required fields." });
-    }
 
-    try {
-        const newCredentials = await Login.create({ email, password });
-        return res.json({success: true, newCredentials});
-    } catch (err) {
-        res.status(400).json({ success: false, error: err.message });
-    }
-};
 
-module.exports = { getCredentials, addCredentials };
+module.exports = { loginUser };

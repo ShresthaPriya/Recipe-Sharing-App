@@ -11,15 +11,16 @@ import Splash from './components/Splash';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import RecipeDetails from './components/RecipeDetails';
-
-
-
+// import Categories from './components/Categories';
+import AllRecipesCookHome from './components/allRecipesCookHome';
+import CookHomePage from './components/CookHomePage';
+import AddRecipes from './components/AddRecipes';
 
 function App() {
   return (
     <div className='App'>
     <Router>
-      <Navbar/>
+      {/* <Navbar/> */}
       <Routes>
       {/* <Route path='/' element={<Login/>}/> */}
       <Route path='/' element={<Splash/>}/>
@@ -31,10 +32,15 @@ function App() {
       <Route path= '/ExploreRecipe' element={<ExploreRecipe/>}/>
       <Route path= '/RecipeCard' element={<RecipeCard/>}/>
       <Route path="/recipe/:id" element={<RecipeDetails />} />
+      
+      {/* <Route path='/Categories' element={<Categories/>}/> */}
 
       {/* <Route path='/Recipes' element={<Recipes/>}/> */}
 
         {/* Add more routes as needed */}
+        <Route path= '/CookHomePage' element={<CookHomePage/>}/>
+      <Route path= '/allRecipesCookHome' element={<allRecipesCookHome/>}/>
+      <Route path="/AddRecipes" element={<AddRecipes/>}/>
       </Routes>
     </Router>
     </div>

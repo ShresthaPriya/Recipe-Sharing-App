@@ -1,11 +1,7 @@
-
-
 const express = require("express");
 const router = express.Router();
-const { getCredentials, addCredentials } = require("../controller/LoginController");
+const { loginUser } = require("../controller/LoginController");
 
-// Define the routes
-router.get("/", getCredentials);
-router.post("/", addCredentials);
+router.post("/", loginUser);
 
 module.exports = router;

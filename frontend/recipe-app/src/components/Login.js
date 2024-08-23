@@ -15,7 +15,7 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:4000/login", {
+      const response = await axios.get("http://localhost:4000/signup", {
         email,
         password,
       });
@@ -67,7 +67,7 @@ const Login = () => {
             />
             <div className="remember-forgot">
               <label>
-                <input type="checkbox" /> Remember Me
+                <input type="checkbox"/>  <span>Remember Me</span>
               </label>
               <Link to="/forgot">Forgot password?</Link>
             </div>
