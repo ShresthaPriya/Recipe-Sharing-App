@@ -28,7 +28,7 @@ function Home() {
          
         
       <CookNavbar/>
-      <AllRecipesCookHome />
+      <AllRecipesCookHome recipes={recipes} />
       
     </div>
   );

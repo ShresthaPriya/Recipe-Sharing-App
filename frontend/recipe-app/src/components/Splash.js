@@ -3,6 +3,7 @@ import splash from '../images/splash.jpg';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useNavigate } from 'react-router-dom';
 import Login from './Login';
+import Navbar from './Navbar';
 
 const Splash = () => {
   let navigate = useNavigate(); 
@@ -14,6 +15,7 @@ const Splash = () => {
 
   return (
     <>
+       <Navbar />
       <section className='Home'>
         <div className='left'>
           <h1>Let's enjoy the foodventure!!!</h1>

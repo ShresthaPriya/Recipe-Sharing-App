@@ -10,7 +10,7 @@ function CookNavbar() {
         <h1>Bon Apetit</h1>
       </div>
       <ul className="nav-links">
-        <li><Link to="/allRecipesByCook">My Recipes</Link></li>
+        <li><Link to="/allRecipesCookHome">My Recipes</Link></li>
         <li><Link to="/AddRecipes">Add Recipes</Link></li>
       
       </ul>

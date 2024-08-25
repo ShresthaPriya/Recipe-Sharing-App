@@ -4,6 +4,7 @@ import '../styles/AddRecipes.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { useQueryClient } from '@tanstack/react-query';
 
 const AddRecipes = () => {
   const [title, setTitle] = useState('');
@@ -15,6 +16,7 @@ const AddRecipes = () => {
   const [instructions, setInstructions] = useState('');
   const [shortDescription, setShortDescription] = useState('');
   const [recipeImg, setRecipeImg] = useState(null);
+  const queryClient = useQueryClient(); // Initialize QueryClient
 
   const handleImageChange = (e) => {
     setRecipeImg(e.target.files[0]);
@@ -25,8 +27,8 @@ const AddRecipes = () => {
 
     const formData = new FormData();
     formData.append('title', title);
-    formData.append('ingredients', ingredients.split(',').map(item => item.trim())); // Split ingredients by comma
-    formData.append('instructions', instructions.split('.').map(item => item.trim())); // Split instructions by period
+    formData.append('ingredients', ingredients.split(',').map(item => item.trim()));
+    formData.append('instructions', instructions.split('.').map(item => item.trim()));
     formData.append('shortDescription', shortDescription);
     formData.append('time', `${preparationTime} + ${cookingTime}`);
     formData.append('noOfServings', noOfServings);
@@ -39,9 +41,20 @@ const AddRecipes = () => {
         }
       });
       alert("Recipe uploaded successfully");
-      console.log('Recipe uploaded successfully:', response.data);
+      // Clear form fields
+      setTitle('');
+      setCategory('');
+      setPreparationTime('');
+      setCookingTime('');
+      setNoOfServings('');
+      setIngredients('');
+      setInstructions('');
+      setShortDescription('');
+      setRecipeImg(null);
+      // Refetch recipes
+      queryClient.invalidateQueries(['recipes']);
     } catch (error) {
-        alert("Error uploading recipe")
+      alert("Error uploading recipe");
       console.error('There was an error uploading the recipe:', error);
     }
   };
@@ -59,7 +72,7 @@ const AddRecipes = () => {
             <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
 
             <label>Category</label>
-            <select value={category} onChange={(e) => setCategory(e.target.value)}>
+            <select value={category} onChange={(e) => setCategory(e.target.value)} required>
               <option value="">Select</option>
               <option value="Breakfast">Breakfast</option>
               <option value="Lunch">Lunch</option>

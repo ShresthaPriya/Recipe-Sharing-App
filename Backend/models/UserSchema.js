@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const SignupSchema = mongoose.Schema({
+const UserSchema = mongoose.Schema({
     username: {
         type: String,
         required: true
@@ -15,4 +15,4 @@ const SignupSchema = mongoose.Schema({
     }
 }, { timestamps: true });
 
-module.exports = mongoose.model("Signup", SignupSchema);
+module.exports = mongoose.model("User", UserSchema);

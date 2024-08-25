@@ -14,7 +14,7 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     try {
       setLoading(true);
       const response = await axios.post("http://localhost:4000/Signup", {
@@ -23,11 +23,12 @@ const Signup = () => {
         password,
       });
       setLoading(false);
-
+  
       const data = response.data;
       if (data.success) {
+        setUsername(username); // Set the username in the context
         alert("Signup successful!");
-        navigate("/Login");
+        navigate("/Login"); // Redirect to profile page after signup
       } else {
         alert("Signup failed: " + data.error);
       }
@@ -37,6 +38,7 @@ const Signup = () => {
       alert("An error occurred. Please try again.");
     }
   };
+  
 
   // Function to handle Google login success
   const responseMessage = (response) => {

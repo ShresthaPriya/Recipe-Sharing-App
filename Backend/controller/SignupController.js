@@ -1,4 +1,4 @@
-const Signup = require("../models/Signup");
+const Signup = require("../models/UserSchema");
 
 // Add Credentials for Signup
 const addCredentials = async (req, res) => {
