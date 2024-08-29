@@ -1,42 +1,47 @@
 /* Dropdown menu */
 .categories-dropdown {
-    position: relative;
-  }
-  
-  .dropdown-link {
-    display: block;
-    padding: 10px;
-    text-decoration: none;
-    color: black;
-  }
-  
-  .dropdown-menu {
-    display: block;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 10px;
-    list-style: none;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  .dropdown-menu li {
-    margin-bottom: 10px;
-  }
-  
-  .dropdown-menu li:last-child {
-    margin-bottom: 0;
-  }
-  
-  .dropdown-menu a {
-    text-decoration: none;
-    color: black;
-  }
-  
-  .dropdown-menu a:hover {
-    color: #4CAF50; /* Change color on hover */
-  }
-  
+  position: relative;
+}
+
+.dropdown-link {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-menu {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  list-style: none;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-menu li {
+  margin-bottom: 10px;
+}
+
+.dropdown-menu li:last-child {
+  margin-bottom: 0;
+}
+
+.dropdown-menu a {
+  text-decoration: none;
+  color: black;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-menu a:hover {
+  color: #4CAF50; /* Change color on hover */
+}
+
+.dropdown-menu .fa-circle-plus {
+  margin-left: 30px; /* Adjust the space between text and icon */
+}

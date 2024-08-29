@@ -1,6 +1,6 @@
-const User = require("../models/UserSchema"); // Ensure you're using the correct model
+const User = require("../models/CookSchema");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken")
 
 // Add Credentials for Signup
 const addCredentials = async (req, res) => {
@@ -9,8 +9,8 @@ const addCredentials = async (req, res) => {
     if (!username || !email || !password || !role) { // Check for role as well
         return res.status(400).json({ success: false, error: "All fields are required." });
     }
-    if (role !== "food enthusiast") { // Check if the role is not "food enthusiast"
-        return res.status(400).json({ success: false, error: "Invalid role. Only 'food enthusiast' role is allowed." });
+    if (role !== "cook") { // Check if the role is not "cook"
+        return res.status(400).json({ success: false, error: "Invalid role. Only 'cook' role is allowed." });
     }
 
     try {
@@ -42,32 +42,11 @@ const addCredentials = async (req, res) => {
 // Get Credentials
 const getCredentials = async (req, res) => {
     try {
-        const credentials = await User.find(); // Use the correct model
+        const credentials = await User.find();
         return res.json({ success: true, credentials });
     } catch (err) {
         res.status(400).json({ success: false, error: err.message });
     }
 };
 
-// Delete User Credential
-const deleteUserCredential = async (req, res) => {
-    try {
-        const userId = req.params.id;
-        // Check if the id is valid
-        if (!userId) {
-            return res.status(400).json({ success: false, message: "User ID is required" });
-        }
-
-        const user = await User.findByIdAndDelete(userId); // Use the correct model
-
-        if (!user) {
-            return res.status(404).json({ success: false, message: "User not found" });
-        }
-
-        res.json({ success: true, message: "User deleted successfully" });
-    } catch (err) {
-        res.status(400).json({ success: false, error: err.message });
-    }
-};
-
-module.exports = { getCredentials, addCredentials, deleteUserCredential };
+module.exports = { addCredentials, getCredentials };

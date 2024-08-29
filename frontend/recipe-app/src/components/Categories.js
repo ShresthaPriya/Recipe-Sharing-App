@@ -1,7 +1,9 @@
-// src/components/Categories.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Categories.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+
 
 function Categories() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -20,13 +22,29 @@ function Categories() {
       onMouseEnter={handleMouseEnter} 
       onMouseLeave={handleMouseLeave}
     >
-      <Link to="/recipes" className="dropdown-link">Recipes</Link>
+      <div className="dropdown-link">Recipes</div>
       {dropdownOpen && (
         <ul className="dropdown-menu">
-          <li><Link to="/recipes/dinner">Dinner</Link></li>
-          <li><Link to="/recipes/breakfast">Breakfast</Link></li>
-          <li><Link to="/recipes/lunch">Lunch</Link></li>
-          <li><Link to="/recipes/snacks">Snacks</Link></li>
+          <li>
+            <Link to="/AddRecipesForm">
+              Dinner <FontAwesomeIcon icon={faCirclePlus} />
+            </Link>
+          </li>
+          <li>
+            <Link to="/AddRecipesForm">
+              Breakfast <FontAwesomeIcon icon={faCirclePlus} />
+            </Link>
+          </li>
+          <li>
+            <Link to="/AddRecipesForm">
+              Lunch <FontAwesomeIcon icon={faCirclePlus} />
+            </Link>
+          </li>
+          <li>
+            <Link to="/AddRecipesForm">
+              Snacks <FontAwesomeIcon icon={faCirclePlus} />
+            </Link>
+          </li>
         </ul>
       )}
     </li>

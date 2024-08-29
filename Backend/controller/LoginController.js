@@ -32,6 +32,7 @@
 const User = require("../models/UserSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
 const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -48,13 +49,13 @@ const Login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { email: user.email, _id: user._id },
+      { email: user.email, _id: user._id, role: user.role }, // Include role in token
       process.env.SECRET
     );
 
     res.json({
       token,
-      user: { _id: user._id, name: user.name, email: user.email },
+      user: { _id: user._id, name: user.username, email: user.email, role: user.role }, // Include role in response
     });
   } catch (e) {
     console.error(e.message);

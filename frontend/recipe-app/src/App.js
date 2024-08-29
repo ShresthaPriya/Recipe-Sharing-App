@@ -7,10 +7,12 @@ import TrendingRecipe from './components/TrendingRecipe';
 import ExploreRecipe from './components/ExploreRecipe';
 import Splash from './components/Splash';
 import Login from './components/Login';
+import CookLogin from './components/CookLogin';
+import AdminLogin from './components/AdminLogin';
 import Signup from './components/Signup';
 import RecipeDetails from './components/RecipeDetails';
 import CookHomePage from './components/CookHomePage';
-import AddRecipes from './components/AddRecipes';
+// import AddRecipes from './components/AddRecipes';
 import EditRecipes from './components/EditRecipes';
 import ProfileDetails from './components/ProfileDetails';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -18,6 +20,7 @@ import axios from 'axios';
 import allRecipesCookHome from './components/allRecipesCookHome';
 import Navbar from './components/Navbar';
 import ForgotPassword from "./components/forgotPassword";
+import AddRecipesForm from './components/AddRecipesForm';
 
 export const AppContext = createContext();
 
@@ -33,7 +36,7 @@ export const AppContext = createContext();
 
 function App() {
   const client = new QueryClient();
-  const [username, setUsername] = useState(""); 
+  const [username, setUsername] = useState(" "); 
 
   return (
     <div className='App'>
@@ -47,13 +50,15 @@ function App() {
               <Route path='/Home' element={<Home />} />
               <Route path='/Signup' element={<Signup />} />
               <Route path='/Login' element={<Login />} />
-              <Route path='/TrendingRecipe' element={<TrendingRecipe />} />
-              <Route path='/ExploreRecipe' element={<ExploreRecipe />} />
+              <Route path='/CookLogin' element={<CookLogin />} />
+              <Route path='/AdminLogin' element={<AdminLogin />} />
+              {/* <Route path='/TrendingRecipe' element={<TrendingRecipe />} />
+              <Route path='/ExploreRecipe' element={<ExploreRecipe />} /> */}
               <Route path='/RecipeCard' element={<RecipeCard />} />
               <Route path='/recipe/:id' element={<RecipeDetails />} />
               <Route path='/ProfileDetails' element={<ProfileDetails />} />
               <Route path='/CookHomePage' element={<CookHomePage />} />
-              <Route path='/AddRecipes' element={<AddRecipes />} />
+              <Route path='/AddRecipesForm' element={<AddRecipesForm />} />
               <Route path='/EditRecipes' element={<EditRecipes />} />
               <Route path='/allRecipesCookHome' element={<allRecipesCookHome/>}/>
               <Route path="/forgotPassword" element={<ForgotPassword />} />

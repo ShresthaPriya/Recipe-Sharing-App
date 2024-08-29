@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import '../styles/Login.css';
 import axios from 'axios';
 
-const Login = () => {
+const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:4000/signup/:id", {
+      const response = await axios.get("http://localhost:4000/AdminLogin", {
         email,
         password,
       });
@@ -89,4 +89,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

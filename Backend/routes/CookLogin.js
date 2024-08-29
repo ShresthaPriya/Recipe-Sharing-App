@@ -1,14 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-// const { loginUser } = require("../controller/LoginController");
+const CookLoginController = require("../controller/CookLoginController");
 
-// router.post("/", loginUser);
-
-// module.exports = router;
-const LoginController = require("../controller/LoginController");
-
-router.post("/", LoginController);
+router.post("/", CookLoginController);
 function verifyToken(req, res, next) {
   const token = req.header("Authorization");
 

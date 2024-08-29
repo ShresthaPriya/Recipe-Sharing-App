@@ -1,34 +1,68 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import '../styles/Signup.css';
 import axios from 'axios';
 import { GoogleLogin } from '@react-oauth/google';
+import { AppContext } from "../App";
 
 const Signup = () => {
-  const [username, setUsername] = useState("");
+  const { username, setUsername } = useContext(AppContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userRole, setUserRole] = useState(""); // User role state
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:4000/Signup", {
+      let route;
+
+      // Determine the route based on user role
+      if (userRole === "food enthusiast") {
+        route = "http://localhost:4000/Signup"; // Food Enthusiast route
+      } else if (userRole === "cook") {
+        route = "http://localhost:4000/CookSignup"; // Cook route
+      }  else if (userRole === "admin") {
+        route = "http://localhost:4000/AdminLogin"; // Cook route
+      } else {
+        alert("Invalid role selected");
+        setLoading(false);
+        return;
+      }
+
+      const response = await axios.post(route, {
         username,
         email,
         password,
+        role: userRole, // Send the role to backend
       });
+
       setLoading(false);
-  
+
       const data = response.data;
       if (data.success) {
         setUsername(username); // Set the username in the context
         alert("Signup successful!");
-        navigate("/Login"); // Redirect to profile page after signup
+
+        // Redirect based on user role
+        switch (userRole) {
+          case "cook":
+            navigate("/CookLogin");
+            break;
+          case "food enthusiast":
+            navigate("/Login");
+            break;
+            case "admin":
+            navigate("/AdminLogin");
+            break;
+          default:
+            navigate("/Login");
+            break;
+        }
       } else {
         alert("Signup failed: " + data.error);
       }
@@ -38,16 +72,13 @@ const Signup = () => {
       alert("An error occurred. Please try again.");
     }
   };
-  
 
-  // Function to handle Google login success
   const responseMessage = (response) => {
-    console.log(response); // Handle the Google login response
+    console.log(response);
   };
 
-  // Function to handle Google login error
   const errorMessage = (error) => {
-    console.error(error); // Handle the Google login error
+    console.error(error);
   };
 
   if (loading) {
@@ -62,7 +93,7 @@ const Signup = () => {
     <div className="Signup-page">
       <div className="Signup-container">
         <div className="Signup-form">
-          <h2>Sign Up</h2> {/* Corrected the form title */}
+          <h2>Sign Up</h2>
           <form onSubmit={handleSubmit}>
             <label>User Name</label>
             <input
@@ -88,35 +119,35 @@ const Signup = () => {
               placeholder="Enter your password"
               required
             />
+            <div className="users-dropdown">
+              <label>Select User Role</label>
+              <select 
+                value={userRole} 
+                onChange={(e) => setUserRole(e.target.value)} 
+                required
+              >
+                <option value="">Select</option>
+                <option value="food enthusiast">Food Enthusiast</option>
+                <option value="cook">Cook</option>
+                <option value="Meal Planner">Meal Planner</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
             <div className="policy-checkbox">
               <label>
                 <input type="checkbox" required /> 
-              </label><p>I agree with all the terms and conditions.</p>
+              </label>
+              <p>I agree with all the terms and conditions.</p>
             </div>
             <button type="submit">Sign Up</button>
           </form>
           <div className="Signup-footer">
-            
             <p>
               Already have an account? <Link to="/Login">Log in</Link>
             </p>
             <span>or</span>
           </div>
-          {/* <AuthProvider projectId="P2kzltwN5diBRr15Vd5ct6ssLsY6">
-	<Descope
-		flowId="sign-up-or-in"
-		theme="light"
-		onSuccess={(e) => {
-			console.log(e.detail.user.name)
-			console.log(e.detail.user.email)
-		}}
-		onError={(err) => {
-			console.log("Error!", err)
-		}}
-	/>
-</AuthProvider> */}
-          
-            <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
         </div>
         <div className="Signup-image">
           <h1>Bon Appétit</h1>

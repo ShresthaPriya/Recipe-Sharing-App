@@ -6,7 +6,7 @@ import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
 
-const AddRecipes = () => {
+const AddRecipesForm = () => {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [preparationTime, setPreparationTime] = useState('');
@@ -117,4 +117,4 @@ const AddRecipes = () => {
   );
 };
 
-export default AddRecipes;
+export default AddRecipesForm;

@@ -1,14 +1,14 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 
-const loginSchema = mongoose.Schema({
-    email: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    }
-}, { timestamps: true });
+// const loginSchema = mongoose.Schema({
+//     email: {
+//         type: String,
+//         required: true
+//     },
+//     password: {
+//         type: String,
+//         required: true
+//     }
+// }, { timestamps: true });
 
-module.exports = mongoose.model("Login", loginSchema);
+// module.exports = mongoose.model("Login", loginSchema);

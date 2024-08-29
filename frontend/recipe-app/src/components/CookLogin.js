@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import '../styles/Login.css';
 import axios from 'axios';
 
-const Login = () => {
+const CookLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:4000/signup/:id", {
+      const response = await axios.get("http://localhost:4000/CookSignup", {
         email,
         password,
       });
@@ -24,7 +24,7 @@ const Login = () => {
       const data = response.data;
       if (data.success) {
         alert("Login successful!");
-        navigate("/Home");
+        navigate("/CookHomePage");
       } else {
         alert("Login failed: " + data.error);
       }
@@ -89,4 +89,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default CookLogin;

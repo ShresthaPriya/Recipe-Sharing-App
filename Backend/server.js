@@ -8,9 +8,13 @@ const router = express.Router();
 
 
 const recipe = require("./routes/recipe");
-const loginRouter = require("./routes/Login");
+const loginRouter = require("./routes/UserLogin");
+const adminLoginRouter = require("./routes/AdminLogin");
+const CookloginRouter = require("./routes/CookLogin")
+const CookSignupRouter = require("./routes/CookSignup")
 const signUpRouter = require("./routes/Signup");
 const forgotPasswordRouter = require('./routes/forgotPasswordRoute');
+
 const verifyToken = require("./middleware/Middleware");
 const Home = require("./controller/controller");
 
@@ -24,8 +28,11 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/recipe", recipe);
-app.use("/Login", loginRouter);
+app.use("/UserLogin", loginRouter);
+app.use("/AdminLogin",adminLoginRouter);
+app.use("/CookLogin" , CookloginRouter);
 app.use("/Signup", signUpRouter);
+app.use("/CookSignup", CookSignupRouter);
 app.use("/forgotPassword", forgotPasswordRouter);
 
 router.get("/", verifyToken, Home.Home);
