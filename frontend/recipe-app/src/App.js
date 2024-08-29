@@ -37,12 +37,13 @@ export const AppContext = createContext();
 function App() {
   const client = new QueryClient();
   const [username, setUsername] = useState(" "); 
+  const [title, setTitle] = useState(" ");
 
   return (
     <div className='App'>
       
       <QueryClientProvider client={client}>
-        <AppContext.Provider value={{ username, setUsername }}>
+        <AppContext.Provider value={{ username, setUsername, title, setTitle }}>
           
           <Router>
             <Routes>

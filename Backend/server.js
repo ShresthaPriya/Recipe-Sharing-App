@@ -14,6 +14,7 @@ const CookloginRouter = require("./routes/CookLogin")
 const CookSignupRouter = require("./routes/CookSignup")
 const signUpRouter = require("./routes/Signup");
 const forgotPasswordRouter = require('./routes/forgotPasswordRoute');
+const CategoriesRouter = require("./routes/Categories")
 
 const verifyToken = require("./middleware/Middleware");
 const Home = require("./controller/controller");
@@ -34,6 +35,7 @@ app.use("/CookLogin" , CookloginRouter);
 app.use("/Signup", signUpRouter);
 app.use("/CookSignup", CookSignupRouter);
 app.use("/forgotPassword", forgotPasswordRouter);
+app.use("/Categories", CategoriesRouter);
 
 router.get("/", verifyToken, Home.Home);
 

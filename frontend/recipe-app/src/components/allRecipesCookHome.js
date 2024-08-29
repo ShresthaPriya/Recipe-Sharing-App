@@ -3,78 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/AllRecipesHomeCook.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { AppContext } from '../App';
+import { useContext } from 'react';
 
 const AllRecipesCookHome=({recipes})=> {
-  const [records, setRecords] = useState([]);
-  const [editingId, setEditingId]= useState(null);
-  
-  const fetchRecipes = async()=>{
-    try{
-      const response = await fetch('http://localhost:4000/recipe');
-      const data = await response.json();
-      console.log("Fetched recipe data:", data);
+ const navigate = useNavigate();
+ const {title, setTitle} = useContext(AppContext)
 
-      if (Array.isArray(data)){
-        setRecords(data);
-
-      }else{
-        console.log("Expected an array but got:", data);
-        setRecords([]);
-      }
-    }catch(error){
-      console.log("Failed to fetch data", error);
-    }
+  const editRecipe = (id) => {
+    // Logic for editing the recipe with the given id
+    navigate(`/EditRecipe/${id}`); // Example: navigate to the edit page
   };
 
-  useEffect(()=>{
-    fetchRecipes();
-  }, []);
-
-  const onSubmit = async (data) => {
-    try {
-      const url = editingId ? `http://localhost:3001/submissions/${editingId}` :
-        "http://localhost:3001/submit-form"
-      const method = editingId ? "PUT" : "POST";
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      if (response.ok) {
-        alert("Data submitted successfully")
-
-        reset();
-        setEditingId(null);
-        fetchSubmissions();
-      } else {
-        alert("Error in submitting data")
-      }
-    } catch (error) {
-      console.log(error)
-    }
+  const deleteRecipe = (id) => {
+    // Logic for deleting the recipe with the given id
+    navigate(`/DeleteRecipes/${id}`)
+    console.log(`Delete recipe with id: ${id}`);
+    // Implement the delete functionality
   };
-
-  const handleEdit = (record) => {
-    setEditingId(record.id);
-    reset(record);
-  }
-
-  const handleDelete = async (id) => {
-    try {
-      const response = await fetch(`http://localhost:3001/submissions/${id}`, {
-        method: "DELETE",
-      })
-      if (response.ok) {
-        console.log("Record Deleted successfully.")
-        fetchSubmissions()  //calling the fetchsubmission function so that the deleted data will be removed from the display as well without having to refresh
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
 
   return (
     <>
@@ -82,34 +28,34 @@ const AllRecipesCookHome=({recipes})=> {
       <div className="trending-recipes">
         <div className="recipe-card">
           <img src={require('../images/salmon.webp')} alt="Delicious Recipe 1" className="recipe-image" />
-          <h3>Easy Baked Salmon</h3>
+          <h3>{title.id==="66c83daf152ea563e557d126"}</h3>
           <div className='info'>
             <p>102 ordered</p>
             <p>102 reviews</p>
             <p>4.5 ★</p>
           </div>
           <div className="recipe-actions">
-            <button onClick={() => editRecipe('recipe-id-1')}>
+            <button onClick={() => editRecipe('66c83daf152ea563e557d126')}>
               <FontAwesomeIcon icon={faEdit} />
             </button>
-            <button onClick={() => deleteRecipe('recipe-id-1')}>
+            <button onClick={() => deleteRecipe('66c83daf152ea563e557d126')}>
               <FontAwesomeIcon icon={faTrashAlt} />
             </button>
           </div>
         </div>
         <div className="recipe-card">
           <img src={require('../images/gingerbread-cupcakes.jpg')} alt="Gingerbread Cupcake" className="recipe-image" />
-          <h3>Gingerbread Cupcake</h3>
+          <h3>{title.id}</h3>
           <div className='info'>
             <p>102 ordered</p>
             <p>102 reviews</p>
             <p>4.5 ★</p>
           </div>
           <div className="recipe-actions">
-            <button onClick={() => handleEdit(record)}>
+            <button onClick={() => editRecipe('recipe-id-2')}>
               <FontAwesomeIcon icon={faEdit} />
             </button>
-            <button onClick={() => deleteRecipe(record.id)}>
+            <button onClick={() => deleteRecipe('recipe-id-2')}>
               <FontAwesomeIcon icon={faTrashAlt} />
             </button>
           </div>
