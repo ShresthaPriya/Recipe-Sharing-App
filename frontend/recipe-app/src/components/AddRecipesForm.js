@@ -118,3 +118,256 @@ const AddRecipesForm = () => {
 };
 
 export default AddRecipesForm;
+
+// import React, { useState } from "react";
+// import "../styles/AddRecipes.css";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import { useQueryClient } from '@tanstack/react-query';
+// import CookNavbar from './CookNavbar';
+
+// const AddRecipesForm = () => {
+//   const [recipe, setRecipe] = useState({
+//     title: "",
+//     category: "",
+//     preparationTime: "",
+//     cookingTime: "",
+//     noOfServings: "",
+//     ingredients: [""],
+//     instructions: "",
+//     shortDescription: "",
+//     recipeImg: null,
+//   });
+
+//   const queryClient = useQueryClient();
+
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     setRecipe({
+//       ...recipe,
+//       [name]: value,
+//     });
+//   };
+
+//   const handleImageChange = (e) => {
+//     setRecipe({
+//       ...recipe,
+//       recipeImg: e.target.files[0],
+//     });
+//   };
+
+//   const handleAddIngredient = () => {
+//     const lastIngredient = recipe.ingredients[recipe.ingredients.length - 1];
+//     if (lastIngredient !== "") {
+//       setRecipe({
+//         ...recipe,
+//         ingredients: [...recipe.ingredients, ""],
+//       });
+//     }
+//   };
+
+//   const handleIngredientChange = (index, value) => {
+//     const updatedIngredients = [...recipe.ingredients];
+//     updatedIngredients[index] = value;
+//     setRecipe({
+//       ...recipe,
+//       ingredients: updatedIngredients,
+//     });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     const nonEmptyIngredients = recipe.ingredients.filter(
+//       (ingredient) => ingredient.trim() !== ""
+//     );
+
+//     if (nonEmptyIngredients.length === 0) {
+//       toast.warn("Please provide at least one non-empty ingredient.");
+//       return;
+//     }
+
+//     const formData = new FormData();
+//     formData.append('title', recipe.title);
+//     formData.append('category', recipe.category);
+//     formData.append('preparationTime', recipe.preparationTime);
+//     formData.append('cookingTime', recipe.cookingTime);
+//     formData.append('noOfServings', recipe.noOfServings);
+//     formData.append('ingredients', JSON.stringify(nonEmptyIngredients));
+//     formData.append('instructions', recipe.instructions);
+//     formData.append('shortDescription', recipe.shortDescription);
+//     formData.append('recipeImg', recipe.recipeImg);
+
+//     try {
+//       const response = await fetch("http://localhost:4000/recipe", {
+//         method: "POST",
+//         body: formData,
+//       });
+
+//       if (response.ok) {
+//         toast.success("Recipe added successfully");
+
+//         setTimeout(() => {
+//           window.location.href = "/recipes";
+//         }, 4000);
+//       } else {
+//         toast.error("Failed to add recipe");
+//       }
+//     } catch (error) {
+//       toast.error("An error occurred while adding the recipe:", error);
+//     }
+
+//     // Clear form fields after submission
+//     setRecipe({
+//       title: "",
+//       category: "",
+//       preparationTime: "",
+//       cookingTime: "",
+//       noOfServings: "",
+//       ingredients: [""],
+//       instructions: "",
+//       shortDescription: "",
+//       recipeImg: null,
+//     });
+
+//     queryClient.invalidateQueries(['recipes']);
+//   };
+
+//   return (
+//     <>
+//       <div>
+//         <CookNavbar />
+//       </div>
+//       <div className="container">
+//         <h2>Add Recipe</h2>
+//         <div className="add-recipe-form">
+//           <form onSubmit={handleSubmit}>
+//             <div>
+//               <label>Recipe Name:</label>
+//               <input
+//                 type="text"
+//                 name="title"
+//                 value={recipe.title}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </div>
+
+//             <div>
+//               <label>Category:</label>
+//               <select
+//                 name="category"
+//                 value={recipe.category}
+//                 onChange={handleInputChange}
+//                 required
+//               >
+//                 <option value="">Select</option>
+//                 <option value="Breakfast">Breakfast</option>
+//                 <option value="Lunch">Lunch</option>
+//                 <option value="Dinner">Dinner</option>
+//               </select>
+//             </div>
+
+//             <div>
+//               <label>Preparation Time:</label>
+//               <input
+//                 type="text"
+//                 name="preparationTime"
+//                 value={recipe.preparationTime}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </div>
+
+//             <div>
+//               <label>Cooking Time:</label>
+//               <input
+//                 type="text"
+//                 name="cookingTime"
+//                 value={recipe.cookingTime}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </div>
+
+//             <div>
+//               <label>No. of Servings:</label>
+//               <input
+//                 type="text"
+//                 name="noOfServings"
+//                 value={recipe.noOfServings}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </div>
+
+//             <div>
+//               <label>Ingredients:</label>
+//               {recipe.ingredients.map((ingredient, index) => (
+//                 <input
+//                   type="text"
+//                   key={index}
+//                   value={ingredient}
+//                   onChange={(e) =>
+//                     handleIngredientChange(index, e.target.value)
+//                   }
+//                   required
+//                 />
+//               ))}
+//               <button type="button" onClick={handleAddIngredient}>
+//                 Add Ingredient
+//               </button>
+//             </div>
+
+//             <div>
+//               <label>Instructions:</label>
+//               <textarea
+//                 name="instructions"
+//                 value={recipe.instructions}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </div>
+
+//             <div>
+//               <label>Short Description:</label>
+//               <textarea
+//                 name="shortDescription"
+//                 value={recipe.shortDescription}
+//                 onChange={handleInputChange}
+//                 required
+//               />
+//             </div>
+
+//             <div>
+//               <label>Image:</label>
+//               <div className="image-upload">
+//                 <input
+//                   type="file"
+//                   id="file-upload"
+//                   onChange={handleImageChange}
+//                   required
+//                 />
+//                 <label htmlFor="file-upload">
+//                   <FontAwesomeIcon icon={faCloudUploadAlt} size="2x" />
+//                   <span> Browse from device</span>
+//                 </label>
+//               </div>
+//             </div>
+
+//             <div className="action-button">
+//               <button type="button" onClick={() => window.location.reload()}>
+//                 Cancel
+//               </button>
+//               <button type="submit">Upload</button>
+//             </div>
+//           </form>
+//           <ToastContainer />
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default AddRecipesForm;
+

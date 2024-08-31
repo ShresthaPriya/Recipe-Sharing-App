@@ -34,9 +34,17 @@ const UpdatePassword = () => {
         setMessage(data.message);
         toast.success("Password Updated successfully");
 
-        setTimeout(() => {
-          window.location.href = "/login";
-        }, 4000);
+        // Redirect based on role
+        const role = data.role;
+        if (role === "user") {
+          setTimeout(() => {
+            window.location.href = "/userLogin";
+          }, 4000);
+        } else if (role === "cook") {
+          setTimeout(() => {
+            window.location.href = "/cookLogin";
+          }, 4000);
+        }
       } else {
         setMessage("An error occurred while updating the password.");
         toast.error("Error in Password update");

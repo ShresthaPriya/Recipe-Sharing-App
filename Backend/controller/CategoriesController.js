@@ -19,4 +19,13 @@ const addCategories = async (req, res) => {
     }
 };
 
-module.exports = {addCategories};
+const getCategories = async(req, res)=>{
+    try {
+        const categories = await Category.find();
+        res.status(200).json(categories);
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
+
+module.exports = {addCategories, getCategories};

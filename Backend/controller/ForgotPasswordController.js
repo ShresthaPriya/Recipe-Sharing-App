@@ -1,28 +1,38 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/UserSchema");
+const Cook = require("../models/CookSchema");
 
 const ForgotPassword = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Check if a user with the provided email exists
-    const user = await User.findOne({ email });
+    let role = null;
+
+    // Check if a user with the provided email exists in either User or Cook collections
+    let user = await User.findOne({ email });
+    let cook = await Cook.findOne({ email });
 
     if (user) {
-      // Hash the new password before updating it
+      // Hash the new password before updating it for User
       const hashedPassword = await bcrypt.hash(password, 10);
-
-      // Update the user's password in the database
       user.password = hashedPassword;
       await user.save();
 
-      // Respond with a success message
-      res.status(200).json({ message: "Password updated successfully" });
+      role = "user";
+      res.status(200).json({ message: "User password updated successfully", role });
+    } else if (cook) {
+      // Hash the new password before updating it for Cook
+      const hashedPassword = await bcrypt.hash(password, 10);
+      cook.password = hashedPassword;
+      await cook.save();
+
+      role = "cook";
+      res.status(200).json({ message: "Cook password updated successfully", role });
     } else {
-      // If no user is found with the given email
+      // If no user or cook is found with the given email
       res
         .status(404)
-        .json({ message: "No user found with this email address" });
+        .json({ message: "No user or cook found with this email address" });
     }
   } catch (error) {
     // Handle unexpected errors

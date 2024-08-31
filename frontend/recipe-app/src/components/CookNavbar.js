@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Navbar.css';
 import { AppContext } from '../App';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import Categories from './Categories';
 
 function CookNavbar() {
   const { username } = useContext(AppContext);
@@ -12,11 +13,12 @@ function CookNavbar() {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/categories');
+        const response = await axios.get('http://localhost:4000/Categories');
         setCategories(response.data);
       } catch (err) {
         setError('Failed to load categories');
@@ -32,6 +34,10 @@ function CookNavbar() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const handleAddRecipeClick = (categoryName)=>{
+    navigate(`/AddRecipesForm`, {state:{categoryName}});
+  }
+
   useEffect(() => {
     console.log('Username in Navbar:', username); // Debugging: Check if username is set
   }, [username]);
@@ -42,29 +48,8 @@ function CookNavbar() {
         <h1>Bon Appetit</h1>
       </div>
       <ul className="nav-links">
-        <li><Link to="/allRecipesCookHome">My Recipes</Link></li>
-        <li className="dropdown">
-          <div onClick={toggleDropdown} className="dropdown-button">
-            Add Recipes
-          </div>
-          {isDropdownOpen && (
-            <div className="dropdown-content">
-              {isLoading ? (
-                <p>Loading...</p>
-              ) : error ? (
-                <p>{error}</p>
-              ) : (
-                categories.map((category) => (
-                  <div key={category.id} className="dropdown-item">
-                    <span>{category.name}</span>
-                    <button className="add-button">+</button>
-                  </div>
-                ))
-              )}
-            </div>
-          )}
-        </li>
-      </ul>
+        <li><Link to="/allRecipesCookHome">My Recipes</Link></li></ul>
+        <Categories />
      
         <div className="search-and-profile">
         <input type="text" placeholder="Search for recipes..." />
