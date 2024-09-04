@@ -136,3 +136,27 @@ body {
     width: 80%;
     border-radius: 50%;
 }
+
+.users-dropdown {
+    width: 100%;
+    margin-top: 0.5rem; /* Adjust margin for better spacing */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.users-dropdown label {
+    margin-bottom: 0.5rem; /* Space between label and dropdown */
+    color: #003E1F;
+}
+
+.users-dropdown select {
+    width: 100%;
+    padding: 0.7rem;
+    margin-top: 0.5rem;
+    border: 1px solid #003E1F;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #003E1F;
+    font-size: 16px;
+}

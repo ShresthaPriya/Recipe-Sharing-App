@@ -53,7 +53,7 @@ const recipeSchema = mongoose.Schema({
         // required: true
     },
     shortDescription: {
-        type: [String],
+        type: String,
         required: true,
     },
     noOfServings: {

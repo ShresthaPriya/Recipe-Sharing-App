@@ -22,7 +22,7 @@ function Categories() {
       onMouseEnter={handleMouseEnter} 
       onMouseLeave={handleMouseLeave}
     >
-      <div className="dropdown-link">Recipes</div>
+      <div className="dropdown-link"></div>
       {dropdownOpen && (
         <ul className="dropdown-menu">
           <li>

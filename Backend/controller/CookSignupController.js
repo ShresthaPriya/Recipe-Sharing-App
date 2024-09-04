@@ -1,6 +1,6 @@
 const User = require("../models/CookSchema");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
 // Add Credentials for Signup
 const addCredentials = async (req, res) => {
@@ -31,9 +31,14 @@ const addCredentials = async (req, res) => {
             role // Save the role
         });
 
+        // Create a token
+        const token = jwt.sign({ email, id: newUser._id }, process.env.JWT_SECRET);
+
         // Exclude password from the response
         newUser.password = undefined;
-        return res.status(201).json({ success: true, user: newUser });
+
+        // Return the token and the new user data
+        return res.status(201).json({ success: true, token, user: newUser });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }
@@ -49,4 +54,19 @@ const getCredentials = async (req, res) => {
     }
 };
 
-module.exports = { addCredentials, getCredentials };
+const getUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ success: false, error: "User not found." });
+        }
+
+        res.status(200).json({ success: true, email:user.email, role: user.role });
+    } catch (err) {
+        res.status(400).json({ success: false, error: err.message });
+    }
+};
+
+module.exports = { addCredentials, getCredentials, getUser };

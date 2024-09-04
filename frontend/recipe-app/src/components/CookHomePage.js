@@ -1,12 +1,12 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-// import Navbar from './Navbar';
-
+import { useLoaderData } from 'react-router-dom';
 import axios from 'axios'
 import AllRecipesCookHome from './allRecipesCookHome';
 import CookNavbar from './CookNavbar';
 
 function Home() {
+  
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
