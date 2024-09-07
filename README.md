@@ -51,6 +51,7 @@ This is a full-stack Recipe Sharing App built using the MERN (MongoDB, Express, 
 
 # For the frontend
 cd frontend
+npx create-react-app recipe-app
 npm install
 
 # For the backend
@@ -67,13 +68,14 @@ npm install
 
 4. **Start the server**:
     ```bash
-    cd server
-    npm start
+    cd backend
+    nodemon server.js
     ```
 
 5. **Start the client**:
     ```bash
-    cd client
+    cd frontend
+    cd recipe-app
     npm start
     ```
 
