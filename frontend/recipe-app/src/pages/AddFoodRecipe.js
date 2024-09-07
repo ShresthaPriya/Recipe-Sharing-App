@@ -34,20 +34,50 @@ const AddFoodRecipe = () => {
     fetchCategories();
   }, [location.state]);
 
-  const onHandleChange = (e) => {
-    // let val = e.target.name === 'ingredients' ? e.target.value.split(",") : e.target.value;
-    // setRecipeData((prevData) => ({ ...prevData, [e.target.name]: val }));
+  // const onHandleChange = (e) => {
+  //   // let val = e.target.name === 'ingredients' ? e.target.value.split(",") : e.target.value;
+  //   // setRecipeData((prevData) => ({ ...prevData, [e.target.name]: val }));
+  //   const { name, value, files } = e.target;
+  //   const val = (name === "ingredients") ? value.split(",") :(name === "file") ? files[0]: value;
+  //   setRecipeData((prev) => ({ ...prev, [name]: val }));
+  //   console.log(files[0])
 
-    const { name, value } = e.target;
-    const val = (name === "ingredients") ? value.split(",") : value;
-    setRecipeData((prev) => ({ ...prev, [name]: val }));
+  // };
+
+  const onHandleChange = (e) => {
+    const { name, value, files } = e.target;
+    
+    // Check if a file is being selected
+    if (name === "file") {
+      const file = files[0]; // Get the selected file
+      setRecipeData((prev) => ({ ...prev, file: file }));
+      console.log(file.name); // To verify file name in the console
+    } else {
+      // Handle other form inputs
+      const val = name === "ingredients" ? value.split(",") : value;
+      setRecipeData((prev) => ({ ...prev, [name]: val }));
+    }
   };
+  
 
   const onHandleSubmit = async (e) => {
     e.preventDefault();
     
+    // Create a FormData object
+    const formData = new FormData();
+  
+    // Append all recipe data fields to the FormData object
+    for (const key in recipeData) {
+      formData.append(key, recipeData[key]);
+    }
+  
     try {
-      await axios.post('http://localhost:4000/recipe', recipeData);
+      // Post the FormData object to the server
+      await axios.post('http://localhost:4000/recipe', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       alert("Successfully added recipe");
       navigate('/CookHomePage'); // Navigate to the desired page
     } catch (error) {
@@ -55,6 +85,7 @@ const AddFoodRecipe = () => {
       alert("Failed to add recipe. Please try again.");
     }
   };
+  
 
   return (
     <>
@@ -95,11 +126,12 @@ const AddFoodRecipe = () => {
 
             <label>Image</label>
             <div className="image-upload">
-              <input type="file" id="file-upload" required />
+              <input type="file" id="file-upload"  name='file'  onChange={onHandleChange} required />
               <label htmlFor="file-upload">
                 <FontAwesomeIcon icon={faCloudUploadAlt} size="2x" />
                 <span> Browse from device</span>
               </label>
+              {recipeData.file && <p>Selected file: {recipeData.file.name}</p>}
             </div>
 
             <div className="action-button">

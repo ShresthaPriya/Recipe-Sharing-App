@@ -59,7 +59,7 @@ const recipeSchema = mongoose.Schema({
     noOfServings: {
         type: String,
     },
-    imageUrl: String,
+    file: String,
     
 }, { timestamps: true }); // Automatically adds createdAt and updatedAt fields
 

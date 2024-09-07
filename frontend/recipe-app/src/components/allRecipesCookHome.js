@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/AllRecipesHomeCook.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { AppContext } from '../App';
-import { useContext } from 'react';
+import { useContext} from 'react';
 
 const AllRecipesCookHome=({recipes})=> {
  const navigate = useNavigate();
  const {title, setTitle} = useContext(AppContext)
+ const {img, setImg} = useState()
 
   const editRecipe = (id) => {
     // Logic for editing the recipe with the given id
@@ -21,6 +22,17 @@ const AllRecipesCookHome=({recipes})=> {
     console.log(`Delete recipe with id: ${id}`);
     // Implement the delete functionality
   };
+
+  const fetchRecipes = async()=>{
+    try {
+      const response = await axios.get('http://localhost:4000/recipe');
+      setTitle(response.data);
+    } catch (err) {
+      setError('Failed to load categories');
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <>

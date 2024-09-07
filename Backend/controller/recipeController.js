@@ -93,11 +93,28 @@
 
 
 const Recipe = require("../models/RecipeSchema")
+const multer = require("multer")
+
 // const Liked = require("../Schema/LikedRecipeSchema");
+const path = require('path'); 
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../public/images'));
+  },
+  filename: function (req, file, cb) {
+    const filename = Date.now() + '-' + file.originalname; 
+    cb(null, filename);
+  }
+});
+
+
+const upload = multer({ storage: storage })
 
 const createRecipe = async (req, res) => {
   try {
-    const { title, ingredients, instructions, noOfServings, time, shortDescription, imageUrl } = req.body;
+    const { title, ingredients, instructions, noOfServings, time, shortDescription } = req.body;
+    const fileName = req.file ? req.file.filename : null; // Save the uploaded file's name
 
     const newRecipe = await Recipe.create({
       title,
@@ -106,7 +123,7 @@ const createRecipe = async (req, res) => {
       noOfServings,
       time,
       shortDescription,
-      imageUrl,
+      file: fileName,  // Save the file name or path in the 'file' field
     });
 
     res.status(201).json(newRecipe);
@@ -115,6 +132,7 @@ const createRecipe = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 const getAllRecipes = async (req, res) => {
   try {
@@ -126,6 +144,8 @@ const getAllRecipes = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
 
 const editRecipe = async(req, res) => {
       const { title, ingredients, instructions, shortDescription, time, noOfServings } = req.body;
@@ -264,4 +284,5 @@ module.exports = {
   LikedList,
   removeFromLikedRecipes,
   searchRecipes,
+  upload 
 };

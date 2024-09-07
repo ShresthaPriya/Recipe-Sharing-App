@@ -36,6 +36,8 @@ app.use("/Signup", signUpRouter);
 app.use("/CookSignup", CookSignupRouter);
 app.use("/forgotPassword", forgotPasswordRouter);
 app.use("/Categories", CategoriesRouter);
+// app.use('/', express.static(path.join(__dirname, '../public/images')));
+
 
 router.get("/", verifyToken, Home.Home);
 

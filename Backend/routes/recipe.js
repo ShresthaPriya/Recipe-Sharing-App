@@ -16,14 +16,14 @@ const {  getAllRecipes,
     getAllLikedRecipes,
     LikedList,
     removeFromLikedRecipes,
-    searchRecipes} = require("../controller/recipeController");
+    searchRecipes,  upload } = require("../controller/recipeController");
 
 
 router.get("/", getAllRecipes);
 // router.get("/", verifyToken, getAllRecipes);
 
 // router.get("/:id", getRecipeById);
-router.post("/", createRecipe); // Upload route for adding recipes
+router.post("/",upload.single('file'), createRecipe); // Upload route for adding recipes
 router.put("/:id",  editRecipe); // Upload route for editing recipes
 router.delete("/:id", deleteRecipe);
 // router.get("/", verifyToken, getAllRecipes);

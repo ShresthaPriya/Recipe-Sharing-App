@@ -99,7 +99,7 @@ const AddRecipesForm = () => {
 
             <label>Image</label>
             <div className="image-upload">
-              <input type="file" id="file-upload" onChange={handleImageChange} required />
+              <input type="file" id="file-upload" name='file' onChange={handleImageChange} required />
               <label htmlFor="file-upload">
                 <FontAwesomeIcon icon={faCloudUploadAlt} size="2x" />
                 <span> Browse from device</span>
