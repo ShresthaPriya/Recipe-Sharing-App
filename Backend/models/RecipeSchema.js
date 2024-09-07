@@ -48,7 +48,7 @@ const recipeSchema = mongoose.Schema({
         type: [String],
         required: true
     },
-    time: {
+    preparationTime: {
         type: String,
         // required: true
     },
@@ -59,7 +59,7 @@ const recipeSchema = mongoose.Schema({
     noOfServings: {
         type: String,
     },
-    file: String,
+    imageUrl: String,
     
 }, { timestamps: true }); // Automatically adds createdAt and updatedAt fields
 

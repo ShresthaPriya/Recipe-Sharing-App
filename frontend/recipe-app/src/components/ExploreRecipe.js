@@ -15,7 +15,7 @@ function ExploreRecipe() {
         <div className="explore-recipes">
            
             <div className="recipe-grid">
-                <img src={require('../images/salmon.webp')} alt="Smoothie" className="recipe-image"/>
+                <img src={require('../images/Ghar.jpg')} alt="Smoothie" className="recipe-image"/>
                 <h2>Fruit and Yougurt Smoothie</h2>
                 <div className='info'>
                     <p>Easy Healthy Baked Salmon! Made with lemon and garlic for incredible flavor and baked in the oven for flaky tenderness.
@@ -37,7 +37,7 @@ function ExploreRecipe() {
 
             </div>
             <div className="recipe-grid">
-                <img src={require('../images/pico.webp')} alt="Smoothie" className="recipe-image"/>
+                <img src={require('../images/splash.jpg')} alt="Smoothie" className="recipe-image"/>
                 <h2>Fruit and Yougurt Smoothie</h2>
                 <div className='info'>
                     <p>This pico de gallo is loaded with freshly chopped tomatoes, red onion, jalapeño, and cilantro.</p>

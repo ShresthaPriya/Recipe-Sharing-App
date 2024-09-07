@@ -17,11 +17,14 @@ import RecipeDetails from './components/RecipeDetails';
 import CookHomePage from './components/CookHomePage';
 // import AddRecipes from './components/AddRecipes';
 import EditRecipes from './components/EditRecipes';
+import DeleteRecipes from './components/DeleteRecipes';
 import ProfileDetails from './components/ProfileDetails';
 // import allRecipesCookHome from './components/allRecipesCookHome';
 import ForgotPassword from "./components/forgotPassword";
 // import AddRecipesForm from './components/AddRecipesForm';
 import AddFoodRecipe from './pages/AddFoodRecipe';
+import MyRecipe from './pages/MyRecipe';
+
 
 export const AppContext = createContext();
 
@@ -57,10 +60,14 @@ function App() {
               <Route path='/ProfileDetails' element={<ProfileDetails />} />
               <Route path='/CookHomePage' element={<CookHomePage />} loader={getAllRecipes} />
               {/* <Route path='/AddRecipesForm' element={<AddRecipesForm />} /> */}
-              <Route path='/EditRecipes' element={<EditRecipes />} />
+            
               <Route path='/allRecipesCookHome' element={<allRecipesCookHome/>}/>
               <Route path="/forgotPassword" element={<ForgotPassword />} />
               <Route path="/AddFoodRecipe" element={<AddFoodRecipe/>}/>
+              <Route path="/EditRecipes/:id" element={<EditRecipes />} />
+              <Route path="/DeleteRecipes/:id" element={<DeleteRecipes />} />
+              <Route path="/MyRecipe" element={<MyRecipe />} />
+
             </Routes>
           </Router>
         </AppContext.Provider>

@@ -65,6 +65,7 @@ const Login = () => {
               placeholder="Enter your password"
               required
             />
+           
             <div className="remember-forgot">
               <label>
                 <input type="checkbox"/>  <span>Remember Me</span>

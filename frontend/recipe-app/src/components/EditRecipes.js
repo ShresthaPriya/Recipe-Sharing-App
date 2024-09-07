@@ -1,128 +1,203 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // to get the recipe ID from the URL
-import CookNavbar from './CookNavbar';
+import { useNavigate, useParams } from 'react-router-dom';
+import CookNavbar from '../components/CookNavbar';
 import '../styles/AddRecipes.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 const EditRecipes = () => {
-  const { id } = useParams(); // get recipe ID from the URL
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
-  const [preparationTime, setPreparationTime] = useState('');
-  const [cookingTime, setCookingTime] = useState('');
-  const [noOfServings, setNoOfServings] = useState('');
-  const [ingredients, setIngredients] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [shortDescription, setShortDescription] = useState('');
-  const [recipeImg, setRecipeImg] = useState(null);
+  const { id } = useParams(); // Get the recipe ID from the URL
+  const [recipeData, setRecipeData] = useState(null); // Initialize recipeData as null
+  const [categories, setCategories] = useState([]); // Initialize categories state
+  const [isLoading, setIsLoading] = useState(true); // Loading state to show loading spinner
+  const navigate = useNavigate(); // For navigating programmatically
 
+  // Fetch categories from the backend
   useEffect(() => {
-    // Fetch the recipe details when the component is mounted
-    const fetchRecipeDetails = async () => {
+    const fetchCategories = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/recipe/${id}`);
-        const recipe = response.data;
-        setTitle(recipe.title);
-        setCategory(recipe.category || '');
-        const [prepTime, cookTime] = recipe.time.split(' + ');
-        setPreparationTime(prepTime);
-        setCookingTime(cookTime);
-        setNoOfServings(recipe.noOfServings);
-        setIngredients(recipe.ingredients.join(', '));
-        setInstructions(recipe.instructions.join('. '));
-        setShortDescription(recipe.shortDescription.join('. '));
-        // Note: You may need to handle the image separately if the image is stored in the backend
+        const response = await axios.get('http://localhost:4000/Categories');
+        setCategories(response.data);
       } catch (error) {
-        console.error('There was an error fetching the recipe details:', error);
+        console.error('Failed to fetch categories:', error);
       }
     };
+  
+    fetchCategories();
+  }, []);
+  
 
+  // Fetch the existing recipe details based on the recipe ID
+  useEffect(() => {
+    const fetchRecipeDetails = async () => {
+      try {
+        console.log('Recipe ID:', id); // Check the value of `id`
+        const response = await axios.get(`http://localhost:4000/recipe/${id}`);
+        const data = response.data;
+        data.ingredients = data.ingredients.join(',');
+        setRecipeData(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to fetch recipe details:', error);
+        setIsLoading(false);
+      }
+    };
+  
     fetchRecipeDetails();
-  }, [id]);
+  }, [id, setRecipeData]);
+  
 
-  const handleImageChange = (e) => {
-    setRecipeImg(e.target.files[0]);
+  // Handle form input changes
+  const onHandleChange = (e) => {
+    const { name, value, files } = e.target;
+
+    // Handle file input separately
+    if (name === 'file') {
+      const file = files[0];
+      setRecipeData((prev) => ({ ...prev, file: file }));
+    } else {
+      setRecipeData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
-  const handleSubmit = async (e) => {
+  // Handle form submission for updating the recipe
+  const onHandleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('ingredients', ingredients.split(',').map(item => item.trim())); // Split ingredients by comma
-    formData.append('instructions', instructions.split('.').map(item => item.trim())); // Split instructions by period
-    formData.append('shortDescription', shortDescription);
-    formData.append('time', `${preparationTime} + ${cookingTime}`);
-    formData.append('noOfServings', noOfServings);
-    if (recipeImg) {
-      formData.append('recipeImg', recipeImg);
+    for (const key in recipeData) {
+      if (key === 'file' && recipeData.file instanceof File) {
+        formData.append(key, recipeData[key]);
+      } else if (key !== 'file') {
+        formData.append(key, recipeData[key]);
+      }
     }
-
+  
     try {
-      const response = await axios.put(`http://localhost:4000/recipe/${id}`, formData, {
+      await axios.put(`http://localhost:4000/recipe/${id}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       });
-      alert("Recipe updated successfully");
-      console.log('Recipe updated successfully:', response.data);
+      alert('Successfully updated recipe');
+      navigate('/MyRecipe'); // Navigate back to home page after successful update
     } catch (error) {
-      alert("Error updating recipe");
       console.error('There was an error updating the recipe:', error);
+      alert('Failed to update recipe. Please try again.');
     }
   };
+  
+
+  // Display loading message while fetching recipe data
+  if (isLoading) {
+    return <p>Loading recipe details...</p>;
+  }
+
+  // Display error message if recipe data fails to load
+  if (!recipeData) {
+    return <p>Failed to load recipe details.</p>;
+  }
 
   return (
     <>
-      <div>
-        <CookNavbar />
-      </div>
+      <CookNavbar /> {/* Navbar for navigation */}
       <div className="container">
         <h2>Edit Recipe</h2>
         <div className="add-recipe-form">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={onHandleSubmit}>
             <label>Recipe Name</label>
-            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+            <input
+              type="text"
+              name="title"
+              value={recipeData.title || ''}
+              onChange={onHandleChange}
+              required
+            />
 
             <label>Category</label>
-            <select value={category} onChange={(e) => setCategory(e.target.value)}>
+            <select
+              name="category"
+              onChange={onHandleChange}
+              value={recipeData?.category || ''} 
+              required
+            >
               <option value="">Select</option>
-              <option value="Breakfast">Breakfast</option>
-              <option value="Lunch">Lunch</option>
-              <option value="Dinner">Dinner</option>
+              {categories.map((category) => (
+                <option key={category._id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
             </select>
 
-            <label>Preparation Time</label>
-            <input type="text" value={preparationTime} onChange={(e) => setPreparationTime(e.target.value)} required />
 
-            <label>Cooking Time</label>
-            <input type="text" value={cookingTime} onChange={(e) => setCookingTime(e.target.value)} required />
+            <label>Preparation Time</label>
+            <input
+              type="text"
+              name="preparationTime"
+              value={recipeData.preparationTime || ''}
+              onChange={onHandleChange}
+              required
+            />
 
             <label>No. of Servings</label>
-            <input type="text" value={noOfServings} onChange={(e) => setNoOfServings(e.target.value)} required />
+            <input
+              type="text"
+              name="noOfServings"
+              value={recipeData.noOfServings || ''}
+              onChange={onHandleChange}
+              required
+            />
 
             <label>Ingredients (comma separated)</label>
-            <textarea rows="4" value={ingredients} onChange={(e) => setIngredients(e.target.value)} required />
+            <textarea
+              name="ingredients"
+              rows="4"
+              value={recipeData.ingredients || ''}
+              onChange={onHandleChange}
+              required
+            />
 
             <label>Instructions (separate with periods)</label>
-            <textarea rows="4" value={instructions} onChange={(e) => setInstructions(e.target.value)} required />
+            <textarea
+              name="instructions"
+              rows="4"
+              value={recipeData.instructions || ''}
+              onChange={onHandleChange}
+              required
+            />
 
             <label>Short Description</label>
-            <textarea rows="2" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} required />
+            <textarea
+              name="shortDescription"
+              rows="2"
+              value={recipeData.shortDescription || ''}
+              onChange={onHandleChange}
+              required
+            />
 
             <label>Image</label>
             <div className="image-upload">
-              <input type="file" id="file-upload" onChange={handleImageChange} />
+              <input
+                type="file"
+                id="file-upload"
+                name="file"
+                onChange={onHandleChange}
+              />
               <label htmlFor="file-upload">
                 <FontAwesomeIcon icon={faCloudUploadAlt} size="2x" />
                 <span> Browse from device</span>
               </label>
+              {!recipeData.file && recipeData.imageUrl && (
+                <p>Current image: {recipeData.imageUrl}</p>
+              )}
+              {recipeData.file && <p>Selected file: {recipeData.file.name}</p>}
             </div>
 
             <div className="action-button">
-              <button type="button" onClick={() => window.location.reload()}>Cancel</button>
+              <button type="button" onClick={() => navigate('/CookHomePage')}>
+                Cancel
+              </button>
               <button type="submit">Update</button>
             </div>
           </form>

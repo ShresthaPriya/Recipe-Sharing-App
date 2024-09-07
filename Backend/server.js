@@ -27,6 +27,8 @@ const PORT = process.env.PORT || 3000;
 // Middleware for parsing JSON
 app.use(express.json());
 app.use(cors());
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/recipe", recipe);
 app.use("/UserLogin", loginRouter);
@@ -36,7 +38,9 @@ app.use("/Signup", signUpRouter);
 app.use("/CookSignup", CookSignupRouter);
 app.use("/forgotPassword", forgotPasswordRouter);
 app.use("/Categories", CategoriesRouter);
-// app.use('/', express.static(path.join(__dirname, '../public/images')));
+
+
+
 
 
 router.get("/", verifyToken, Home.Home);

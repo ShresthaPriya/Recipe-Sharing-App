@@ -109,7 +109,7 @@ const AddFoodRecipe = () => {
               ))}
             </select>
 
-            <label>Preparation Time</label>
+            <label>Cooking Time</label>
             <input type="text" name="preparationTime" onChange={onHandleChange} required />
 
             <label>No. of Servings</label>

@@ -15,7 +15,7 @@ function TrendingRecipe() {
       <h3>Trending Recipes</h3>
       <div className="trending-recipes">
         <div className="recipe-card">
-          <img src={require('../images/salmon.webp')} alt="Delicious Recipe 1" className="recipe-image" />
+          <img src={require('../images/splash.jpg')} alt="Delicious Recipe 1" className="recipe-image" />
           <h3>Easy Baked Salmon</h3>
           <div className='info'>
             <p>102 ordered</p>

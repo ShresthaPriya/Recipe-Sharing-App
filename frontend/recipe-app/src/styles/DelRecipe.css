@@ -1,0 +1,68 @@
+*{
+    margin: 0;
+    box-sizing: 0;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    background-color: none;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  }
+  
+  .delete-overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+ 
+  
+  .delete-image {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+  }
+  
+   .actionBtn .buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .delete-button {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    margin-right: 10px;
+  }
+
+  .delete-button:hover {
+    background-color: white;
+    color: red;
+    border-color: red;
+    margin-right: 10px;
+  }
+  
+  .cancel-button {
+    background-color: black;
+    color: #ccc;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+  }
+
+  .cancel-button:hover {
+    background-color: #ccc;
+    color: black;
+  
+  }
+  

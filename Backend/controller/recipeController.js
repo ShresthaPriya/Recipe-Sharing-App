@@ -1,99 +1,7 @@
-// const Recipes = require("../models/RecipeSchema")
-
-// //get all recipes
-// const getRecipes = async(req, res) => {
-//     try{
-//        const recipes = await Recipes.find()
-//         return res.json({ success: true, recipes})
-//     }
-//     catch(err){
-//         res.status(400).json({success:false, error:err.message});
-//     }
-   
-//   };
-
-
-//   //recipes by id
-//   const getRecipeById = async(req, res)=>{
-   
-//     const recipe = await Recipes.findById(req.params.id)
-//      res.json(recipe)
-//   }
-
-//   // Add new recipe
-// const addRecipes = async(req, res) => {
-//   const { title, ingredients, instructions, shortDescription, time, noOfServings } = req.body;
-
-//   if (!title || !ingredients || !shortDescription || !instructions || !noOfServings) {
-//       return res.status(400).json({ message: "Please fill the required fields." });
-//   }
-
-//   const newRecipe = new Recipes({
-//       title,
-//       ingredients,
-//       instructions,
-//       shortDescription,
-//       time,
-//       noOfServings,
-//       recipeImg: {
-//           data: req.file.buffer,
-//           contentType: req.file.mimetype,
-//       },
-//   });
-
-//   try {
-//       await newRecipe.save();
-//       res.json(newRecipe);
-//   } catch (err) {
-//       res.status(500).json({ success: false, error: err.message });
-//   }
-// };
-
-// // Edit existing recipe
-// const editRecipes = async(req, res) => {
-//   const { title, ingredients, instructions, shortDescription, time, noOfServings } = req.body;
-
-//   try {
-//       let recipe = await Recipes.findById(req.params.id);
-
-//       if (!recipe) {
-//           return res.status(404).json({ success: false, message: "Recipe not found" });
-//       }
-
-//       if (req.file) {
-//           req.body.recipeImg = {
-//               data: req.file.buffer,
-//               contentType: req.file.mimetype,
-//           };
-//       }
-
-//       recipe = await Recipes.findByIdAndUpdate(req.params.id, req.body, { new: true });
-//       res.json(recipe);
-//   } catch (err) {
-//       return res.status(400).json({ success: false, message: "Error while updating", error: err.message });
-//   }
-// };
-
-// // Delete recipe
-// const deleteRecipes = async(req, res) => {
-//   try {
-//       const recipe = await Recipes.findByIdAndDelete(req.params.id);
-
-//       if (!recipe) {
-//           return res.status(404).json({ success: false, message: "Recipe not found" });
-//       }
-
-//       res.json({ success: true, message: "Recipe deleted successfully" });
-//   } catch (err) {
-//       res.status(400).json({ success: false, error: err.message });
-//   }
-// };
-
-// module.exports = { getRecipes, getRecipeById, addRecipes, editRecipes, deleteRecipes };
-
 
 const Recipe = require("../models/RecipeSchema")
 const multer = require("multer")
+
 
 // const Liked = require("../Schema/LikedRecipeSchema");
 const path = require('path'); 
@@ -104,6 +12,8 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const filename = Date.now() + '-' + file.originalname; 
+    console.log('Saving file as:', filename); // Logging filename
+
     cb(null, filename);
   }
 });
@@ -113,22 +23,24 @@ const upload = multer({ storage: storage })
 
 const createRecipe = async (req, res) => {
   try {
-    const { title, ingredients, instructions, noOfServings, time, shortDescription } = req.body;
-    const fileName = req.file ? req.file.filename : null; // Save the uploaded file's name
+    const { title, ingredients, instructions, noOfServings, preparationTime, shortDescription } = req.body;
+    if (!title || !ingredients || !instructions || !preparationTime) {
+      return res.status(400).json({ message: "Required fields cannot be empty" });
+    }
 
     const newRecipe = await Recipe.create({
       title,
       ingredients,
       instructions,
       noOfServings,
-      time,
+      preparationTime,
       shortDescription,
-      file: fileName,  // Save the file name or path in the 'file' field
+      imageUrl: req.file ? req.file.filename : null, // Ensure imageUrl is null if no file is uploaded
     });
 
     res.status(201).json(newRecipe);
   } catch (error) {
-    console.error(error);
+    console.error('Error creating recipe:', error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -145,31 +57,53 @@ const getAllRecipes = async (req, res) => {
   }
 };
 
+const getRecipeById = async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ error: 'Recipe ID is required' });
+  }
+  try {
+    const recipe = await Recipe.findById(id); // Assuming you're using MongoDB
+    if (!recipe) {
+      return res.status(404).json({ error: 'Recipe not found' });
+    }
+    res.json(recipe);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+const editRecipe = async (req, res) => {
+  const { title, ingredients, instructions, shortDescription, preparationTime, noOfServings } = req.body;
+
+  try {
+    // Ensure ingredients and instructions are arrays
+    const ingredientsArray = typeof ingredients === 'string' ? ingredients.split(',') : ingredients;
+    const instructionsArray = typeof instructions === 'string' ? instructions.split('.') : instructions;
+
+    // Update the recipe
+    const updatedRecipe = await Recipe.findByIdAndUpdate(req.params.id, {
+      title,
+      ingredients: ingredientsArray,
+      instructions: instructionsArray,
+      shortDescription,
+      preparationTime,
+      noOfServings,
+      imageUrl: req.file ? req.file.filename : undefined  // Ensure imageUrl is updated if a new file is uploaded
+    }, { new: true });
+
+    if (!updatedRecipe) {
+      return res.status(404).json({ success: false, message: "Recipe not found" });
+    }
+
+    res.json(updatedRecipe);
+  } catch (err) {
+    console.error('Error updating recipe:', err);
+    return res.status(400).json({ success: false, message: "Error while updating", error: err.message });
+  }
+};
 
 
-const editRecipe = async(req, res) => {
-      const { title, ingredients, instructions, shortDescription, time, noOfServings } = req.body;
-    
-      try {
-          let recipe = await Recipe.findById(req.params.id);
-    
-          if (!recipe) {
-              return res.status(404).json({ success: false, message: "Recipe not found" });
-          }
-    
-        //   if (req.file) {
-        //       req.body.recipeImg = {
-        //           data: req.file.buffer,
-        //           contentType: req.file.mimetype,
-        //       };
-        //   }
-    
-          recipe = await Recipe.findByIdAndUpdate(req.params.id, req.body, { new: true });
-          res.json(recipe);
-      } catch (err) {
-          return res.status(400).json({ success: false, message: "Error while updating", error: err.message });
-      }
-    };
 
 const deleteRecipe = async (req, res) => {
   try {
@@ -284,5 +218,6 @@ module.exports = {
   LikedList,
   removeFromLikedRecipes,
   searchRecipes,
+  getRecipeById,
   upload 
 };
