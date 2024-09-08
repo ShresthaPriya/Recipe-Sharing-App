@@ -89,7 +89,7 @@ const editRecipe = async (req, res) => {
       shortDescription,
       preparationTime,
       noOfServings,
-      imageUrl: req.file ? req.file.filename : undefined  // Ensure imageUrl is updated if a new file is uploaded
+      imageUrl: req.file ? req.file.filename : undefined  
     }, { new: true });
 
     if (!updatedRecipe) {

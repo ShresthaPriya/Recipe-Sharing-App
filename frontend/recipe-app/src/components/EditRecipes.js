@@ -131,7 +131,7 @@ const EditRecipes = () => {
             </select>
 
 
-            <label>Preparation Time</label>
+            <label>Cooking Time</label>
             <input
               type="text"
               name="preparationTime"
